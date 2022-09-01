@@ -46,14 +46,18 @@ h1{
   margin-bottom: 30px;
   word-wrap: break-word;
 }
+
+.show_url_check{
+  width: auto;
+  height: auto;
+}
 /*  */
-.checkbox_true_hidden{
-  display: none;
+.checkbox_true{
   border: 1px solid #ccc;
   background-color: aqua;
 }
-.checkbox_true_show{
-  display: block;
+.checkbox_true_hidden{
+    display: none;
 }
 
 .checkbox_false_hidden{

@@ -42,7 +42,6 @@ export default function Home(props) {
             string += data;
             if (i == Array_url.length) {
               handleCheck(string);
-              alert('CHECKED')
             }
           }
         } catch (error) {
@@ -59,7 +58,7 @@ export default function Home(props) {
   const [url_check, setUrl_check] = useState("");
 
   const check_true = () => {
-    return document.getElementsByClassName("checkbox_true_hidden");
+    return document.getElementsByClassName("checkbox_true");
   };
   const check_false = () => {
     return document.getElementsByClassName("checkbox_false_hidden");
@@ -69,16 +68,18 @@ export default function Home(props) {
     // console.log(data);
     if (url_check.toString() !== "") {
       if (data.indexOf(url_check) !== -1) {
-        console.log(data);
-        let a = check_true();
-        a[0].classList.add("checkbox_true_show");
-        let b = check_false();
-        b[0].classList.remove("checkbox_false_show");
+        // let a = check_true();
+        // a[0].classList.add("checkbox_true_show");
+        // let b = check_false();
+        // b[0].classList.remove("checkbox_false_show");
+        console.log('true');
+        alert("CHECKED");
       } else {
+        let a = check_true();
+        a[0].classList.add("checkbox_true_hidden");
         let b = check_false();
         b[0].classList.add("checkbox_false_show");
-        let a = check_true();
-        a[0].classList.remove("checkbox_true_show");
+        alert("CHECKED");
       }
     } else alert("Enter text check");
   };
@@ -117,12 +118,6 @@ export default function Home(props) {
           >
             Check
           </button>
-          {/* <div className="checkbox_true_hidden">
-            <i class="fa-solid fa-check"></i>
-          </div>
-          <div className="checkbox_false_hidden">
-            <i class="fa-solid fa-x"></i>
-          </div> */}
         </div>
         <div className="box">
           <textarea
@@ -149,14 +144,8 @@ export default function Home(props) {
           {urls.map((url_submit, index) => (
             <div key={index} className="show_url">
               <p className="url">{url_submit}</p>
-              <div>
-                <div className="checkbox_true_hidden">
-                  <i class="fa-solid fa-check"></i>
-                </div>
-                <div className="checkbox_false_hidden">
-                  <i class="fa-solid fa-x"></i>
-                </div>
-              </div>
+              <i class="fa-solid fa-check checkbox_true"></i>
+              <i class="fa-solid fa-x checkbox_false_hidden"></i>
             </div>
           ))}
         </div>
