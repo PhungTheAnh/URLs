@@ -7,6 +7,7 @@ export default function Home(props) {
   // const [array_submit, setArray_submit] = useState([])
   // delay Onchange
   // show list url
+  const [check, setCheck] = useState([]);
   let Array_url = [];
   Array_url = url.toString().split("\n");
   // console.log("url", url);
@@ -16,8 +17,13 @@ export default function Home(props) {
     // Array_url_submit = url.toString().split("\n");
     // console.log("array_submit", Array_url_submit);
     if (Array_url_submit.toString() != "") {
-      setUrls((prev) => [...prev, ...Array_url_submit]);
+      let arr = [];
+      for (let index = 0; index < check.length; index++) {
+        arr.push({ text: Array_url_submit[index], checked: check[index] });
+      }
+      setUrls((prev) => [...prev, ...arr]);
       setUrl("");
+      setCheck([]);
     } else alert("Please Enter Url");
   };
   // console.log("urls", urls);
@@ -37,7 +43,9 @@ export default function Home(props) {
             body: JSON.stringify(urls),
           });
           const { data } = await res.json();
+
           if (data) {
+            handleCheck(data, urls);
             i += 1;
             string += data;
             if (i == Array_url.length) {
@@ -58,30 +66,41 @@ export default function Home(props) {
   const [url_check, setUrl_check] = useState("");
 
   const check_true = () => {
-    return document.getElementsByClassName("checkbox_true");
+    return document.getElementsByClassName("checkbox_true_hidden");
   };
   const check_false = () => {
     return document.getElementsByClassName("checkbox_false_hidden");
   };
   // const check_true = document.getElementsById('checkbox_true_hidden')
-  const handleCheck = (data) => {
+  console.log();
+  const handleCheck = (data, urlString = "") => {
     // console.log(data);
-    if (url_check.toString() !== "") {
-      if (data.indexOf(url_check) !== -1) {
-        // let a = check_true();
-        // a[0].classList.add("checkbox_true_show");
-        // let b = check_false();
-        // b[0].classList.remove("checkbox_false_show");
-        console.log('true');
-        alert("CHECKED");
-      } else {
-        let a = check_true();
-        a[0].classList.add("checkbox_true_hidden");
-        let b = check_false();
-        b[0].classList.add("checkbox_false_show");
-        alert("CHECKED");
-      }
-    } else alert("Enter text check");
+    if (!urlString) {
+      if (url_check.toLowerCase() !== "") {
+        if (data.toLowerCase().indexOf(url_check) !== -1) {
+          let a = check_true();
+          a[0].classList.add("checkbox_true_show");
+          let b = check_false();
+          b[0].classList.remove("checkbox_false_show");
+        } else {
+          let b = check_false();
+          b[0].classList.add("checkbox_false_show");
+          let a = check_true();
+          a[0].classList.remove("checkbox_true_show");
+        }
+      } else alert("Enter text check");
+    } else {
+      if (url_check.toLowerCase() !== "") {
+        setCheck((prev) => {
+          let check1 = [true];
+          if (data.toLowerCase().indexOf(url_check.toLowerCase()) === -1) {
+            check1 = [false];
+          }
+          let arr_data = [...prev];
+          return arr_data.concat(check1);
+        });
+      } else alert("Enter text check");
+    }
   };
   //
   return (
@@ -95,7 +114,7 @@ export default function Home(props) {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
           integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
           referrerpolicy="no-referrer"
         />
       </Head>
@@ -143,9 +162,14 @@ export default function Home(props) {
             ))} */}
           {urls.map((url_submit, index) => (
             <div key={index} className="show_url">
-              <p className="url">{url_submit}</p>
-              <i class="fa-solid fa-check checkbox_true"></i>
-              <i class="fa-solid fa-x checkbox_false_hidden"></i>
+              <p className="url">{url_submit.text}</p>
+              <div>
+                {url_submit.checked ?
+                  (<i className="fa-solid fa-check" style={{ color: "green" }}></i>)
+                  :
+                  (<i className="fa-solid fa-x" style={{ color: "red" }}></i>)
+                }
+              </div>
             </div>
           ))}
         </div>
@@ -155,4 +179,3 @@ export default function Home(props) {
     </div>
   );
 }
-0;

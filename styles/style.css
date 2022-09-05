@@ -56,18 +56,19 @@ h1{
   border: 1px solid #ccc;
   background-color: aqua;
 }
-.checkbox_true_hidden{
+/* .checkbox_true_hidden{
     display: none;
-}
+} */
 
 .checkbox_false_hidden{
   display: none;
   border: 1px solid #ccc;
   background-color: aqua;
+  color: red;
 }
-.checkbox_false_show{
+/* .checkbox_false_show{
   display: block;
-}
+} */
 /*  */
 .input{
   padding: 10px 20px;
